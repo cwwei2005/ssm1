@@ -98,8 +98,12 @@ public class main {
      */
     @RequestMapping("/register")
     public String register(Admin admin, Model model){
-        adminService.save(admin);
-        return "login";
+        if (!admin.getName().isEmpty()){
+            adminService.save(admin);
+            return "login";
+        } else {
+            return "register";
+        }
     }
 
     /**
@@ -107,12 +111,12 @@ public class main {
      * @return
      */
     @RequestMapping("/login")
-    public String login(Admin admin,Model model){
+    public String login(Admin admin,HttpServletRequest request, Model model){
         Admin ad=adminService.login(admin);
         if(ad!=null){
             return "redirect:getAllUser";
         }else{
-            return "error";
+            return "login";
         }
     }
 }

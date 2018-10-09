@@ -6,33 +6,41 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
   <head>
     <title>all users</title>
   </head>
   <body>
-  <h1 align="center">登陆/注册</h1>
-  <%--<div id="id_login">--%>
-    <form align="center" name="form1">
-      用户名: <input type="text" name="name" value="">
-      <br><br>
-      密&nbsp;码: <input type="password" name="password" value="">
-      <br><br>
-      <input type="button"  value="登陆" onclick="login()">
-      <input type="button"  value="注册"  onclick="register()">
-    </form>
-  <%--</div>--%>
+  <div>
+      <c:if test="${!empty list}">
+          <table class="table table-bordered table-striped">
+              <tr>
+                  <th>ID</th>
+                  <th>昵称</th>
+                  <%--<th>姓名</th>--%>
+                  <th>密码</th>
+                  <%--<th>操作</th>--%>
+              </tr>
 
-  <script language="javascript">
-    function login(){
-        document.form1.action="/login";
-        document.form1.submit();
-    }
-    function register(){
-        document.form1.action="register";
-        document.form1.submit();
-    }
-  </script>
+              <c:forEach items="${list}" var="user">
+                  <tr>
+                      <td>${user.id}</td>
+                      <td>${user.name}</td>
+                      <%--<td>${user.firstName} ${user.lastName}</td>--%>
+                      <td>${user.password}</td>
+                      <td>
+                          <a href="/admin/users/show/${user.id}" type="button" class="btn btn-sm btn-success">详情</a>
+                          <a href="/admin/users/update/${user.id}" type="button" class="btn btn-sm btn-warning">修改</a>
+                          <a href="/admin/users/delete/${user.id}" type="button" class="btn btn-sm btn-danger">删除</a>
+                      </td>
+                  </tr>
+              </c:forEach>
+          </table>
+      </c:if>
+  </div>
 
+  <a href="login.jsp" type="button">login</a>
   </body>
 </html>
